@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<string> 
+<div class="jumbotron">
+    <h1>List of Books</h1>
+    <p class="lead"></p>
+  
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+
+        
+       
+                                     <table>
+
+                                         @foreach (string item in Model)
+                                         {
+                                             <tr>
+                                                 <td>
+                                                     @item
+                                                 </td>
+                                             </tr>
+                                             }
+                                     </table>
+        <p></p>
+    </div>
+    <div class="col-md-4">
+        <h2></h2>
+        <p></p>
+        <p></p>
+    </div>
+    <div class="col-md-4">
+        <h2></h2>
+        <p></p>
+        <p></p>
+    </div>
+</div>

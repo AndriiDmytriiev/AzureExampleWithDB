@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<!--<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Here you can add a book.</title>
+</head>
+<body>
+    <form name="f1" method="post" action="">
+        <input type="textbox" id="t1">
+        <input type="textbox" id="t2">
+        <input type="submit" value="Save" id="b1">
+    </form>
+</body>
+</html>-->
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav class="navbar navbar-white" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav2">
+                <span class="sr-only">Toggle</span>
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <a class="navbar-brand">Search</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="nav2">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    @Html.DropDownList("Area", string.Empty)
+                </div>
+                <div class="form-group">
+                    <input type="text" name="now" id="dateFilter" class="form-control datepicker" value="@ViewBag.dateFilter" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="Search" class="form-control" value="@ViewBag.Search" placeholder="Search" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </form>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+@using (Html.BeginForm("AttendanceSave", "Attendance", FormMethod.Post))
+{
+<input type="hidden" name="presentDate" value="@ViewBag.dateFilter" />
+<input type="hidden" name="area" value="@ViewBag.SelectedArea" />
+<input type="hidden" name="search" value="@ViewBag.Search" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Attendance</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th colspan="3">
+                    Driver
+                </th>
+                <th colspan="3">
+                    Unit
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    In
+                    &nbsp;
+                    @Html.CheckBox("drivercheckInHead")
+                </th>
+                <th>
+                    Out
+                    &nbsp;
+                    @Html.CheckBox("drivercheckOutHead")
+                </th>
+                <th>
+                    Police Number
+                </th>
+                <th>
+                    In
+                    &nbsp;
+                    @Html.CheckBox("unitcheckInHead")
+                </th>
+                <th>
+                    Out
+                    &nbsp;
+                    @Html.CheckBox("unitcheckOutHead")
+                </th>
+            </tr>
+
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+
+            <tr>
+                @Html.Hidden("Models[" + i + "].DriverId", Model[i].DriverId)
+                @Html.Hidden("Models[" + i + "].UnitId", Model[i].UnitId)
+                <td>
+                    @Html.DisplayFor(m => m[i].DriverName)
+                </td>
+                <td>
+                    @if (Model[i].DriverIn && Model[i].DriverOut)
+                    {
+                    @Html.Hidden("Models[" + i + "].DriverIn", Model[i].DriverIn)
+                    @Html.Hidden("Models[" + i + "].DriverInDate", Model[i].DriverInDate)
+                    @Model[i].DriverInDate.Value.ToString("dd MMMM yyyy HH:mm")
+                    }
+                    else
+                    {
+                    if (Model[i].DriverOutDateBefore == null && Model[i].DriverInDateBefore != null)
+                    {
+                    <label class="label label-danger">
+                        @Model[i].DriverInDateBefore.Value.ToString("dd MMMM yyyy HH:mm")
+                    </label>
+                    }
+                    else
+                    {
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">
+                            @Html.CheckBox("Models[" + i + "].DriverIn", Model[i].DriverIn, new { @class = "drivercheckIn" })
+                        </span>
+                        @Html.TextBox("Models[" + i + "].DriverInDate", Model[i].DriverInDate, new { @class = "datetimepicker drivercheckInDate" })
+                    </div>
+                    }
+                    }
+                </td>
+                <td>
+                    @if (Model[i].DriverIn && Model[i].DriverOut)
+                    {
+                    @Html.Hidden("Models[" + i + "].DriverOut", Model[i].DriverOut)
+                    @Html.Hidden("Models[" + i + "].DriverOutDate", Model[i].DriverOutDate)
+                    @Model[i].DriverOutDate.Value.ToString("dd MMMM yyyy HH:mm")
+                    }
+                    else
+                    {
+                    if (Model[i].DriverIn)
+                    {
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">
+                            @Html.CheckBox("Models[" + i + "].DriverOut", Model[i].DriverOut, new { @class = "drivercheckOut" })
+                        </span>
+                        @Html.TextBox("Models[" + i + "].DriverOutDate", Model[i].DriverOutDate, new { @class = "datetimepicker drivercheckOutDate" })
+                    </div>
+                    }
+                    else
+                    {
+                    <span class="label label-info">Need driver in</span>
+                    }
+
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m[i].PoliceNumber)
+                </td>
+                <td>
+                    @if (Model[i].UnitIn && Model[i].UnitOut)
+                    {
+                    @Html.Hidden("Models[" + i + "].UnitIn", Model[i].UnitIn)
+                    @Html.Hidden("Models[" + i + "].UnitIn", Model[i].UnitInDate)
+                    @Model[i].UnitInDate.Value.ToString("dd MMMM yyyy HH:mm")
+                    }
+                    else
+                    {
+                    if (Model[i].UnitOutDateBefore == null && Model[i].UnitInDateBefore != null)
+                    {
+                    <label class="label label-danger">
+                        @Model[i].UnitInDateBefore.Value.ToString("dd MMMM yyyy HH:mm")
+                    </label>
+                    }
+                    else
+                    {
+
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">
+                            @Html.CheckBox("Models[" + i + "].UnitIn", Model[i].UnitIn, new { @class = "unitcheckIn" })
+                        </span>
+                        @Html.TextBox("Models[" + i + "].UnitInDate", Model[i].UnitInDate, new { @class = "datetimepicker unitcheckInDate" })
+                    </div>
+                    }
+                    }
+                </td>
+                <td>
+                    @if (Model[i].UnitIn && Model[i].UnitOut)
+                    {
+                    @Html.Hidden("Models[" + i + "].UnitOut", Model[i].UnitOut)
+                    @Html.Hidden("Models[" + i + "].UnitOutDate", Model[i].UnitOutDate)
+                    @Model[i].UnitOutDate.Value.ToString("dd MMMM yyyy HH:mm")
+                    }
+                    else
+                    {
+                    if (Model[i].UnitIn)
+                    {
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">
+                            @Html.CheckBox("Models[" + i + "].UnitOut", Model[i].UnitOut, new { @class = "unitcheckOut" })
+                        </span>
+                        @Html.TextBox("Models[" + i + "].UnitOutDate", Model[i].UnitOutDate, new { @class = "datetimepicker unitcheckOutDate" })
+                    </div>
+                    }
+                    else
+                    {
+                    <span class="label label-info">Need unit in</span>
+                    }
+                    }
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+    @if (Model.Count() > 0)
+    {
+
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-ok">&nbsp;Submit</span>
+        </button>
+    </div>
+    }
+</div>
+}
