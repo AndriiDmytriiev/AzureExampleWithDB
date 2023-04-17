@@ -139,11 +139,14 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\AzureExampleWIthDB - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\AzureExampleWIthDB - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\AzureExampleWithDB20230417210408 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressProject20230404001748 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressProject20230404001748 - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressProject43251 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressProject43251 - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressProject43251 - Web Deploy2.pubxml" />
+    <None Include="Properties\PublishProfiles\ExpressProject43251 - Web Deploy3.pubxml" />
     <None Include="Properties\PublishProfiles\Expressproject7685w - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
